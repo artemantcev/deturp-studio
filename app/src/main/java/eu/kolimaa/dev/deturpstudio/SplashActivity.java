@@ -14,21 +14,13 @@ import android.view.View;
 
 public class SplashActivity extends Activity {
 
-    private class Test implements Runnable {
-
-        public void run() {
-            for (int i = 0; i < 40; i++) {
-                Log.d("TEST", "wow this thread works!");
-            }
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        (new Thread(new Test())).start();
+        finish();
 
     }
 

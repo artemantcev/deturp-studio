@@ -1,11 +1,22 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:background="@color/red_theme_overlay"
     tools:context="eu.kolimaa.dev.deturpstudio.SplashActivity">
 
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@drawable/ic_launcher"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"/>
+
+
     <TextView android:id="@+id/fullscreen_content" android:layout_width="match_parent"
         android:layout_height="match_parent" android:keepScreenOn="true" android:textColor="#ffeeee"
-        android:textSize="30sp" android:gravity="center"
+        android:textSize="20sp" android:gravity="center" android:layout_marginTop="@dimen/splash_text_margin_top"
         android:text="@string/app_shortname" />
 
-</FrameLayout>
+</RelativeLayout>
