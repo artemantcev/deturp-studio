@@ -1,37 +1,21 @@
 package eu.kolimaa.dev.deturpstudio;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.net.Uri;
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
-
-public class StartActivity extends ActionBarActivity implements PlaylistFragment.OnToolbarListener {
-
-    private PlaylistFragment cToolbar;
+public class StartActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-        PlaylistFragment cToolbar = new PlaylistFragment();
-
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.layout.activity_start, cToolbar);
-        fragmentTransaction.commit();
+        final ListView PlaylistView = (ListView) findViewById(R.id.playlist);
 
     }
-
-    @Override
-    public void onToolbarInteraction(Uri uri) {
-
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -44,10 +28,11 @@ public class StartActivity extends ActionBarActivity implements PlaylistFragment
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        int id = item.getItemId();
+        switch(item.getItemId()) {
+            case R.id.action_quitbutton:
+                AppHelper.killApplication();
+//            case R.id.action_add:
 
-        if (id == R.id.action_quitbutton) {
-            return true;
         }
 
         return super.onOptionsItemSelected(item);

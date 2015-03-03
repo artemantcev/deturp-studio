@@ -3,5 +3,5 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".StartActivity">
     <item android:id="@+id/action_quitbutton" android:title="@string/action_quitbutton"
         android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/action_add" android:title="@string/action_add" app:showAsAction="ifRoom" />
+    <item android:id="@+id/action_add" android:title="@string/action_add" app:showAsAction="always" />
 </menu>

@@ -3,8 +3,7 @@
 
     <string name="app_name">Deturp Studio</string>
     <string name="app_shortname">DETURP</string>
-    <string name="action_quitbutton">Quit</string>
+    <string name="action_quitbutton">Kill</string>
     <string name="action_add">Add new track</string>
-    <string name="hello_blank_fragment">test fragment</string>
 
 </resources>
