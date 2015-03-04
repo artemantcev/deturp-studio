@@ -6,6 +6,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+
 public class StartActivity extends Activity {
 
     @Override
@@ -13,7 +15,8 @@ public class StartActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-        final ListView PlaylistView = (ListView) findViewById(R.id.playlist);
+        final ListView mPlaylistView = (ListView) findViewById(R.id.playlist);
+        ArrayList<String> PlaylistTracks = new ArrayList<>();
 
     }
 
