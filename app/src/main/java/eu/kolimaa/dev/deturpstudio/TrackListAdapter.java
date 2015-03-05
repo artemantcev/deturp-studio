@@ -8,13 +8,13 @@ import android.widget.BaseAdapter;
 
 import java.util.ArrayList;
 
-public class TracklistAdapter extends BaseAdapter {
+public class TrackListAdapter extends BaseAdapter {
 
     Context context;
     ArrayList<Track> tracks;
     LayoutInflater lInflater;
 
-    public TracklistAdapter(Context context, ArrayList<Track> tracks) {
+    public TrackListAdapter(Context context, ArrayList<Track> tracks) {
 
         this.context = context;
         this.tracks = tracks;

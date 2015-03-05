@@ -1,12 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/red_theme_overlay"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:paddingLeft="5dp">
 
     <TextView
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:id="@+id/tracktext"
-        android:text="text" />
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textSize="35dp"
+        android:layout_gravity="center_vertical"
+        android:id="@+id/tracknumber"
+        android:text="1" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="33dp"
+        android:text="E"
+        android:textSize="9dp"
+        android:id="@+id/button"
+        android:layout_gravity="right" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="33dp"
+        android:text="M"
+        android:textSize="9dp"
+        android:id="@+id/button"
+        android:layout_gravity="right" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingTop="2dp">
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textSize="15dp"
+        android:gravity="top"
+        android:id="@+id/trackname"
+        android:text="Death in June - The Golden Wedding Of Sorrow (..." />
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textSize="12dp"
+        android:gravity="bottom"
+        android:id="@+id/tracklength"
+        android:text="03:59" />
+
+    </LinearLayout>
 
 </LinearLayout>
