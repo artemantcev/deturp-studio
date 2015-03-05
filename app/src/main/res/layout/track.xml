@@ -15,28 +15,40 @@
         android:id="@+id/tracknumber"
         android:text="1" />
 
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingTop="2dp">
+
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="33dp"
         android:text="E"
         android:textSize="9dp"
-        android:id="@+id/button"
+        android:id="@+id/button_edit"
         android:layout_gravity="right" />
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="33dp"
-        android:text="M"
-        android:textSize="9dp"
-        android:id="@+id/button"
-        android:layout_gravity="right" />
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="33dp"
+            android:text="M"
+            android:textSize="9dp"
+            android:id="@+id/button_mute"
+            android:layout_gravity="right" />
+
+        </LinearLayout>
+
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_gravity="center_vertical"
         android:paddingLeft="15dp"
         android:paddingTop="2dp">
 
