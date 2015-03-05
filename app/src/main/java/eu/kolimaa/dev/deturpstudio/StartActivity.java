@@ -16,7 +16,10 @@ public class StartActivity extends Activity {
         setContentView(R.layout.activity_start);
 
         final ListView mPlaylistView = (ListView) findViewById(R.id.playlist);
-        ArrayList<String> PlaylistTracks = new ArrayList<>();
+        ArrayList<Track> PlaylistTracks = new ArrayList<>();
+
+
+        Track test = new Track();
 
     }
 

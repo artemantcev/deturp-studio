@@ -21,6 +21,7 @@ public class TrackListAdapter extends BaseAdapter {
         lInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+
     @Override
     public int getCount() {
 
