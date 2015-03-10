@@ -30,8 +30,8 @@ public class StartActivity extends Activity {
 
         //TODO: remove stubs block
         Uri pathStub = Uri.parse("");
-        Track trackStub = new Track("1", pathStub, getApplicationContext());
-        Track trackStub1 = new Track("2", pathStub, getApplicationContext());
+        Track trackStub = new Track("Death in June - Last Europa Kiss (Live in Tel Aviv)", pathStub, getApplicationContext());
+        Track trackStub1 = new Track("Troum - Mad as the Mist and Snow #2", pathStub, getApplicationContext());
         playListTracks.add(trackStub);
         playListTracks.add(trackStub1);
 

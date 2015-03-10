@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -36,6 +37,12 @@ public class TrackListAdapter extends BaseAdapter {
         if (convertView == null) {
             view = lInflater.inflate(R.layout.track, parent, false);
         }
+
+        TextView trackNumber = (TextView) view.findViewById(R.id.tracknumber);
+        TextView trackName = (TextView) view.findViewById(R.id.trackname);
+
+        trackNumber.setText(Integer.toString(position+1));
+        trackName.setText(tracks.get(position).getTrackName());
 
         return view;
     }
