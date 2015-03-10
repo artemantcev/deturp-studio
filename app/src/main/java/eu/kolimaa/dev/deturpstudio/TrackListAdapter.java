@@ -1,6 +1,7 @@
 package eu.kolimaa.dev.deturpstudio;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,19 +26,16 @@ public class TrackListAdapter extends BaseAdapter {
     @Override
     public int getCount() {
 
-        return 0;
+        return tracks.size();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         View view = convertView;
 
         if (convertView == null) {
             view = lInflater.inflate(R.layout.track, parent, false);
         }
-
-        //should be implemented after a Track.class
 
         return view;
     }
