@@ -1,14 +1,17 @@
 package eu.kolimaa.dev.deturpstudio;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 public class StartActivity extends Activity {
@@ -43,7 +46,7 @@ public class StartActivity extends Activity {
 
         getMenuInflater().inflate(R.menu.menu_start, menu);
 
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
