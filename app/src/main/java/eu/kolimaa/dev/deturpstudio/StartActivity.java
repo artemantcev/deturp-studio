@@ -13,15 +13,15 @@ public class StartActivity extends Activity {
 
     ArrayList<Track> playListTracks;
     TrackListAdapter trackListAdapter;
-    FragmentManager fm;
+    EditDialogFragment newTrackDialogFragment;
+
+    FragmentManager fm = getFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_start);
-
-        fm = getFragmentManager();
 
         playListTracks = new ArrayList<>();
         trackListAdapter = new TrackListAdapter(getApplicationContext(), playListTracks);
@@ -54,7 +54,10 @@ public class StartActivity extends Activity {
             case R.id.action_quitbutton:
                 AppHelper.killApplication();
             case R.id.action_add:
-                (new EditDialogFragment()).show(fm, "newTrackDialog");
+                if (newTrackDialogFragment == null) {
+                    newTrackDialogFragment = new EditDialogFragment();
+                }
+                newTrackDialogFragment.show(fm, "newTrackDialog");
 
         }
 
