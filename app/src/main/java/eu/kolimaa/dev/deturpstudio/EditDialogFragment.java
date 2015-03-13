@@ -9,21 +9,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-public class EditDialogFragment extends DialogFragment implements View.OnClickListener {
+public class EditDialogFragment extends DialogFragment {
+
+    private boolean isNewTrack;
 
     public EditDialogFragment() {
 
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public static EditDialogFragment newInstance(boolean isNewTrack) {
+        EditDialogFragment f = new EditDialogFragment();
+        f.isNewTrack = isNewTrack;
 
+        return f;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getDialog().setTitle(getEditDialogTitle(isNewTrack));
+
         return inflater.inflate(R.layout.fragment_editdialog, container, false);
     }
 
@@ -31,18 +36,23 @@ public class EditDialogFragment extends DialogFragment implements View.OnClickLi
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Button saveButton = (Button) getView().findViewById(R.id.save_button);
-        saveButton.setOnClickListener(this);
+//        Button saveButton = (Button) getView().findViewById(R.id.save_button);
+//        saveButton.setOnClickListener(this);
 
     }
 
-    @Override
-    public void onClick(View view) {
-        Log.d("FRAGMENT", "test button");
-    }
+    public String getEditDialogTitle(boolean isNewTrack) {
 
-    public void setTitle(String title) {
-        //TODO: a dynamic title setter which indicates the state (e.g. new track/edit track)
+        String title;
+
+        if (isNewTrack) {
+            title = getActivity().getString(R.string.action_add);
+        } else {
+            title = getActivity().getString(R.string.action_edit);
+        }
+
+        return title;
+
     }
 
 

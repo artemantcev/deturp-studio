@@ -55,7 +55,7 @@ public class StartActivity extends Activity {
                 AppHelper.killApplication();
             case R.id.action_add:
                 if (newTrackDialogFragment == null) {
-                    newTrackDialogFragment = new EditDialogFragment();
+                    newTrackDialogFragment = EditDialogFragment.newInstance(true);
                 }
                 newTrackDialogFragment.show(fm, "newTrackDialog");
 
