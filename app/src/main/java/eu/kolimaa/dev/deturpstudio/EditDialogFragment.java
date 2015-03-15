@@ -1,17 +1,22 @@
 package eu.kolimaa.dev.deturpstudio;
 
 
+
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class EditDialogFragment extends DialogFragment {
 
     private boolean isNewTrack;
+    private TextView trackNameView;
+    private Button trackFileUploadView;
 
     public EditDialogFragment() {
 
@@ -36,8 +41,19 @@ public class EditDialogFragment extends DialogFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-//        Button saveButton = (Button) getView().findViewById(R.id.save_button);
-//        saveButton.setOnClickListener(this);
+        final View saveButtonView = (View) getView().findViewById(R.id.save_button);
+
+        if (isNewTrack) {
+            saveButtonView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View saveButton) {}
+            });
+        } else {
+            saveButtonView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View saveButton) {}
+            });
+        }
 
     }
 
