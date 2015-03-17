@@ -110,22 +110,19 @@ public class EditDialogFragment extends DialogFragment {
 
     }
 
-    public EditDialogFragment setTrackPosition(int trackPosition) {
+    public void setTrackPosition(int trackPosition) {
         this.trackPosition = trackPosition;
 
-        return this;
     }
 
-    public EditDialogFragment setCurrentName(String currentTrackName) {
+    public void setCurrentName(String currentTrackName) {
         this.currentTrackName = currentTrackName;
 
-        return this;
     }
 
-    public EditDialogFragment setCurrentFilePath(Uri currentFilePath) {
+    public void setCurrentFilePath(Uri currentFilePath) {
         this.currentFilePath = currentFilePath;
 
-        return this;
     }
 
     public int getTrackPosition() {

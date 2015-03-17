@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -38,8 +39,11 @@ public class TrackListAdapter extends BaseAdapter {
             view = lInflater.inflate(R.layout.track, parent, false);
         }
 
+        final int trackPosition = position;
+
         TextView trackNumber = (TextView) view.findViewById(R.id.tracknumber);
         TextView trackName = (TextView) view.findViewById(R.id.trackname);
+//        Button removeTrackButton = (Button) view.findViewById(R.id.button_edit);
 
         trackNumber.setText(Integer.toString(position+1));
         trackName.setText(tracks.get(position).getTrackName());

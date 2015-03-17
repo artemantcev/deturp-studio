@@ -45,9 +45,9 @@ public class StartActivity extends Activity implements EditDialogFragment.TrackO
 
         editTrackDialogFragment = EditDialogFragment.newInstance(false);
 
-        editTrackDialogFragment.setTrackPosition(position)
-                .setCurrentName(currentTrack.getTrackName())
-                .setCurrentFilePath(currentTrack.getTrackPath());
+        editTrackDialogFragment.setTrackPosition(position);
+        editTrackDialogFragment.setCurrentName(currentTrack.getTrackName());
+        editTrackDialogFragment.setCurrentFilePath(currentTrack.getTrackPath());
 
         editTrackDialogFragment.show(fm, "editTrackDialog");
         return true;
@@ -80,19 +80,19 @@ public class StartActivity extends Activity implements EditDialogFragment.TrackO
 
     @Override
     public void onCreateNewTrack(String name, Uri path) {
-        Log.d("onCreateNewTrack", "HI!");
         Track track = new Track(name, path, getApplicationContext());
         playListTracks.add(track);
+        newTrackDialogFragment = null;
 
         trackListAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onEditExistingTrack(String newName, Uri newPath, int position) {
-        Log.d("onEditExistingTrack", "HI!");
-        playListTracks.get(position)
-                .setTrackName(newName)
-                .setTrackPath(newPath);
+        Track currentTrack = playListTracks.get(position);
+
+        currentTrack.setTrackName(newName);
+        currentTrack.setTrackPath(newPath);
 
         trackListAdapter.notifyDataSetChanged();
     }
