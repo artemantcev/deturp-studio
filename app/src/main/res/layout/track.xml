@@ -5,7 +5,8 @@
     android:background="@color/red_theme_overlay"
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
-    android:paddingLeft="5dp">
+    android:paddingLeft="5dp"
+    android:longClickable="true">
 
     <TextView
         android:layout_height="wrap_content"

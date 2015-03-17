@@ -3,6 +3,7 @@ package eu.kolimaa.dev.deturpstudio;
 
 
 import android.app.DialogFragment;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,8 @@ public class EditDialogFragment extends DialogFragment {
     private boolean isNewTrack;
     private TextView trackNameView;
     private Button trackFileUploadView;
+    private View saveButtonView;
+    private View cancelButtonView;
 
     public EditDialogFragment() {
 
@@ -41,17 +44,37 @@ public class EditDialogFragment extends DialogFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        final View saveButtonView = (View) getView().findViewById(R.id.save_button);
+        cancelButtonView = getView().findViewById(R.id.cancel_button);
+        saveButtonView = getView().findViewById(R.id.save_button);
+        trackNameView = (TextView) getView().findViewById(R.id.trackname_edit_text);
+
+        cancelButtonView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View cancelButton) {
+                dismiss();
+            }
+        });
 
         if (isNewTrack) {
             saveButtonView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View saveButton) {}
+                public void onClick(View saveButton) {
+                    String name = trackNameView.getText().toString();
+                    Uri path = Uri.parse("");
+                    ((TrackOperator)getActivity()).onCreateNewTrack(name, path);
+                    trackNameView.setText("");
+                    dismiss();
+                }
             });
         } else {
             saveButtonView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View saveButton) {}
+                public void onClick(View saveButton) {
+                    String newName = null;
+                    Uri newPath = Uri.parse("");
+                    ((TrackOperator)getActivity()).onEditExistingTrack(newName, newPath);
+                    dismiss();
+                }
             });
         }
 
@@ -68,6 +91,14 @@ public class EditDialogFragment extends DialogFragment {
         }
 
         return title;
+
+    }
+
+    public interface TrackOperator {
+
+        public void onCreateNewTrack(String name, Uri path);
+
+        public void onEditExistingTrack(String newName, Uri newPath);
 
     }
 

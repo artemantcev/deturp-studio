@@ -4,16 +4,19 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import java.util.ArrayList;
 
-public class StartActivity extends Activity {
+public class StartActivity extends Activity implements EditDialogFragment.TrackOperator, AdapterView.OnItemLongClickListener {
 
     ArrayList<Track> playListTracks;
     TrackListAdapter trackListAdapter;
-    EditDialogFragment newTrackDialogFragment;
+    EditDialogFragment newTrackDialogFragment, editTrackDialogFragment;
 
     FragmentManager fm = getFragmentManager();
 
@@ -29,14 +32,18 @@ public class StartActivity extends Activity {
         final ListView playlistView = (ListView) findViewById(R.id.playlist);
         playlistView.setAdapter(trackListAdapter); //setting the adapter for playlist view
 
-        //TODO: remove stubs block
-        Uri pathStub = Uri.parse("");
-        Track trackStub = new Track("Death in June - Last Europa Kiss (Live in Tel Aviv)", pathStub, getApplicationContext());
-        Track trackStub1 = new Track("Troum - Mad as the Mist and Snow #2", pathStub, getApplicationContext());
-        playListTracks.add(trackStub);
-        playListTracks.add(trackStub1);
+        playlistView.setOnItemLongClickListener(this);
 
+    }
 
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
+        Log.d("onItemLongClick", "HI!");
+        if (editTrackDialogFragment == null) {
+            editTrackDialogFragment = EditDialogFragment.newInstance(false);
+        }
+        editTrackDialogFragment.show(fm, "editTrackDialog");
+        return true;
     }
 
     @Override
@@ -63,4 +70,17 @@ public class StartActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onCreateNewTrack(String name, Uri path) {
+        Log.d("onCreateNewTrack", "HI!");
+        Track track = new Track(name, path, getApplicationContext());
+        playListTracks.add(track);
+    }
+
+    @Override
+    public void onEditExistingTrack(String newName, Uri newPath) {
+        Log.d("onEditExistingTrack", "HI!");
+    }
+
 }
