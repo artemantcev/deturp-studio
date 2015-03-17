@@ -69,7 +69,6 @@ public class EditDialogFragment extends DialogFragment {
                     String name = trackNameView.getText().toString();
                     Uri path = Uri.parse("");
                     ((TrackOperator)getActivity()).onCreateNewTrack(name, path);
-                    trackNameView.setText("");
                     dismiss();
                 }
             });
