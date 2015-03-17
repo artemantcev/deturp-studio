@@ -16,10 +16,17 @@ import java.util.ArrayList;
 public class EditDialogFragment extends DialogFragment {
 
     private boolean isNewTrack;
+
+    private String currentTrackName;
+
+    private Uri currentFilePath;
+
+    private int trackPosition;
+
     private TextView trackNameView;
+
     private Button trackFileUploadView;
-    private View saveButtonView;
-    private View cancelButtonView;
+
 
     public EditDialogFragment() {
 
@@ -44,8 +51,8 @@ public class EditDialogFragment extends DialogFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        cancelButtonView = getView().findViewById(R.id.cancel_button);
-        saveButtonView = getView().findViewById(R.id.save_button);
+        View cancelButtonView = getView().findViewById(R.id.cancel_button);
+        View saveButtonView = getView().findViewById(R.id.save_button);
         trackNameView = (TextView) getView().findViewById(R.id.trackname_edit_text);
 
         cancelButtonView.setOnClickListener(new View.OnClickListener() {
@@ -70,12 +77,22 @@ public class EditDialogFragment extends DialogFragment {
             saveButtonView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View saveButton) {
-                    String newName = null;
+                    String newName = trackNameView.getText().toString();
                     Uri newPath = Uri.parse("");
-                    ((TrackOperator)getActivity()).onEditExistingTrack(newName, newPath);
+                    ((TrackOperator)getActivity()).onEditExistingTrack(newName, newPath, getTrackPosition());
                     dismiss();
                 }
             });
+        }
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if (!isNewTrack) {
+            trackNameView.setText(getCurrentName());
         }
 
     }
@@ -94,11 +111,42 @@ public class EditDialogFragment extends DialogFragment {
 
     }
 
+    public EditDialogFragment setTrackPosition(int trackPosition) {
+        this.trackPosition = trackPosition;
+
+        return this;
+    }
+
+    public EditDialogFragment setCurrentName(String currentTrackName) {
+        this.currentTrackName = currentTrackName;
+
+        return this;
+    }
+
+    public EditDialogFragment setCurrentFilePath(Uri currentFilePath) {
+        this.currentFilePath = currentFilePath;
+
+        return this;
+    }
+
+    public int getTrackPosition() {
+        return trackPosition;
+    }
+
+    public String getCurrentName() {
+        return currentTrackName;
+    }
+
+    public Uri getCurrentFilePath() {
+        return currentFilePath;
+    }
+
+
     public interface TrackOperator {
 
         public void onCreateNewTrack(String name, Uri path);
 
-        public void onEditExistingTrack(String newName, Uri newPath);
+        public void onEditExistingTrack(String newName, Uri newPath, int position);
 
     }
 

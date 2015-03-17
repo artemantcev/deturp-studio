@@ -35,6 +35,19 @@ public class Track {
         return mp.getDuration();
     }
 
+    public Track setTrackName(String trackName) {
+        this.trackName = trackName;
+
+        return this;
+    }
+
+    public Track setTrackPath(Uri trackPath) {
+        this.trackPath = trackPath;
+
+        return this;
+    }
+
+
     public String getTrackName() {
         return trackName;
     }

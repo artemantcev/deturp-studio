@@ -15,7 +15,9 @@ import java.util.ArrayList;
 public class StartActivity extends Activity implements EditDialogFragment.TrackOperator, AdapterView.OnItemLongClickListener {
 
     ArrayList<Track> playListTracks;
+
     TrackListAdapter trackListAdapter;
+
     EditDialogFragment newTrackDialogFragment, editTrackDialogFragment;
 
     FragmentManager fm = getFragmentManager();
@@ -38,10 +40,15 @@ public class StartActivity extends Activity implements EditDialogFragment.TrackO
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
-        Log.d("onItemLongClick", "HI!");
-        if (editTrackDialogFragment == null) {
-            editTrackDialogFragment = EditDialogFragment.newInstance(false);
-        }
+
+        Track currentTrack = playListTracks.get(position);
+
+        editTrackDialogFragment = EditDialogFragment.newInstance(false);
+
+        editTrackDialogFragment.setTrackPosition(position)
+                .setCurrentName(currentTrack.getTrackName())
+                .setCurrentFilePath(currentTrack.getTrackPath());
+
         editTrackDialogFragment.show(fm, "editTrackDialog");
         return true;
     }
@@ -76,11 +83,18 @@ public class StartActivity extends Activity implements EditDialogFragment.TrackO
         Log.d("onCreateNewTrack", "HI!");
         Track track = new Track(name, path, getApplicationContext());
         playListTracks.add(track);
+
+        trackListAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onEditExistingTrack(String newName, Uri newPath) {
+    public void onEditExistingTrack(String newName, Uri newPath, int position) {
         Log.d("onEditExistingTrack", "HI!");
+        playListTracks.get(position)
+                .setTrackName(newName)
+                .setTrackPath(newPath);
+
+        trackListAdapter.notifyDataSetChanged();
     }
 
 }
