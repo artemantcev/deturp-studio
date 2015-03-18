@@ -31,6 +31,10 @@ public class Track {
         mp.start();
     }
 
+    public void mute() {
+
+    }
+
     public int getTrackLengthInMsec() {
         return mp.getDuration();
     }

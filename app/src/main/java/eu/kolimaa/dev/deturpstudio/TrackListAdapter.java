@@ -43,7 +43,25 @@ public class TrackListAdapter extends BaseAdapter {
 
         TextView trackNumber = (TextView) view.findViewById(R.id.tracknumber);
         TextView trackName = (TextView) view.findViewById(R.id.trackname);
-//        Button removeTrackButton = (Button) view.findViewById(R.id.button_edit);
+        Button removeTrackButton = (Button) view.findViewById(R.id.button_edit);
+        Button muteTrackButton = (Button) view.findViewById(R.id.button_mute);
+
+        removeTrackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tracks.remove(trackPosition);
+                TrackListAdapter.this.notifyDataSetChanged();
+            }
+        });
+
+        muteTrackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("mute", "mute action");
+                tracks.get(trackPosition).mute();
+                TrackListAdapter.this.notifyDataSetChanged();
+            }
+        });
 
         trackNumber.setText(Integer.toString(position+1));
         trackName.setText(tracks.get(position).getTrackName());
