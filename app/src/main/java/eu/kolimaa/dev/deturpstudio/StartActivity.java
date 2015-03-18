@@ -39,6 +39,13 @@ public class StartActivity extends Activity implements EditDialogFragment.TrackO
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+
+
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
     public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
 
         Track currentTrack = playListTracks.get(position);
