@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ToggleButton;
+
 import java.util.ArrayList;
 
 public class StartActivity extends Activity implements EditDialogFragment.TrackOperator, AdapterView.OnItemLongClickListener {
@@ -29,11 +31,14 @@ public class StartActivity extends Activity implements EditDialogFragment.TrackO
         setContentView(R.layout.activity_start);
 
         playListTracks = new ArrayList<>();
+
         trackListAdapter = new TrackListAdapter(getApplicationContext(), playListTracks);
 
         final ListView playlistView = (ListView) findViewById(R.id.playlist);
-        playlistView.setAdapter(trackListAdapter); //setting the adapter for playlist view
+        final ToggleButton playToggleButton = (ToggleButton) findViewById(R.id.toggle_button_play);
+        final Button stopButton = (Button) findViewById(R.id.button_stop);
 
+        playlistView.setAdapter(trackListAdapter); //setting the adapter for playlist view
         playlistView.setOnItemLongClickListener(this);
 
     }
