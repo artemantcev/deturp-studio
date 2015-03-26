@@ -2,6 +2,7 @@ package eu.kolimaa.dev.deturpstudio;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,12 +10,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 
-public class StartActivity extends Activity implements EditDialogFragment.TrackOperator, AdapterView.OnItemLongClickListener {
+public class StartActivity extends Activity implements EditDialogFragment.TrackOperator,
+        AdapterView.OnItemLongClickListener {
 
     ArrayList<Track> playListTracks;
 
@@ -24,6 +27,11 @@ public class StartActivity extends Activity implements EditDialogFragment.TrackO
 
     FragmentManager fm = getFragmentManager();
 
+    private Intent getExplicitMusicServiceIntent() {
+        Intent service = new Intent(this, MusicService.class);
+        return service;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,11 +40,31 @@ public class StartActivity extends Activity implements EditDialogFragment.TrackO
 
         playListTracks = new ArrayList<>();
 
+        startService(getExplicitMusicServiceIntent());
+
         trackListAdapter = new TrackListAdapter(getApplicationContext(), playListTracks);
 
         final ListView playlistView = (ListView) findViewById(R.id.playlist);
         final ToggleButton playToggleButton = (ToggleButton) findViewById(R.id.toggle_button_play);
         final Button stopButton = (Button) findViewById(R.id.button_stop);
+
+        playToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+//                    musicService.continue();
+                } else {
+//                    musicService.pause();
+                }
+            }
+        });
+
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//              musicService.stop();
+            }
+        });
 
         playlistView.setAdapter(trackListAdapter); //setting the adapter for playlist view
         playlistView.setOnItemLongClickListener(this);
@@ -107,6 +135,18 @@ public class StartActivity extends Activity implements EditDialogFragment.TrackO
         currentTrack.setTrackPath(newPath);
 
         trackListAdapter.notifyDataSetChanged();
+    }
+
+    public interface MusicPlayerController {
+
+        public void play();
+
+        public void pause();
+
+        public void stop();
+
+        public void sendPlaylist();
+
     }
 
 }

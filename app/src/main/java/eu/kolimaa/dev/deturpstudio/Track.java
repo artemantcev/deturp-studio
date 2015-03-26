@@ -5,6 +5,8 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.util.Log;
 
+import java.io.IOException;
+
 /**
  * Describes the Track field entities which should appear inside the StartActivity's Track mPlaylistView
  */
@@ -12,31 +14,36 @@ public class Track {
 
     private String trackName;
     private Uri trackPath;
-    private MediaPlayer mp;
+    private int trackLength;
+    private boolean isMuted;
 
     public Track(String name, Uri path, Context context) {
 
-        this.trackName = name;
-        this.trackPath = path;
+        trackName = name;
+        trackPath = path;
 
         try {
-
-            mp = MediaPlayer.create(context, trackPath);
-
-        } catch(Exception e) { Log.d("Track", "couldn't initialize MediaPlayer"); }
+            MediaPlayer mp = MediaPlayer.create(context, trackPath);
+            trackLength = mp.getDuration();
+            mp.release();
+        } catch (Exception e) {
+            Log.d("Track.class", "error while trying to get" +
+                    " the audio duration (file doesn't exist?)");
+            AppHelper.killApplication();
+        }
 
     }
 
-    public void play() { //should be rewritten later
-        mp.start();
+    public void setMute(boolean isMuted) {
+        this.isMuted = isMuted;
     }
 
-    public void mute() {
-
+    public boolean isMuted() {
+        return isMuted;
     }
 
     public int getTrackLengthInMsec() {
-        return mp.getDuration();
+        return trackLength;
     }
 
     public void setTrackName(String trackName) {
@@ -48,7 +55,6 @@ public class Track {
         this.trackPath = trackPath;
 
     }
-
 
     public String getTrackName() {
         return trackName;

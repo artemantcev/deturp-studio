@@ -58,7 +58,8 @@ public class TrackListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Log.d("mute", "mute action");
-                tracks.get(trackPosition).mute();
+
+                tracks.get(trackPosition).setMute(!tracks.get(trackPosition).isMuted());
                 TrackListAdapter.this.notifyDataSetChanged();
             }
         });

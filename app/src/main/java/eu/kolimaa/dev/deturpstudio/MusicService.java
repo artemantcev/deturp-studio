@@ -4,7 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-public class MusicService extends Service {
+public class MusicService extends Service implements StartActivity.MusicPlayerController {
     public MusicService() {
     }
 
@@ -13,4 +13,13 @@ public class MusicService extends Service {
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
+
+    public void play() {}
+
+    public void stop() {}
+
+    public void pause() {}
+
+    public void sendPlaylist() {}
+
 }
