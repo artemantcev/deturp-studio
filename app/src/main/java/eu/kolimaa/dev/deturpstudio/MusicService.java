@@ -14,12 +14,16 @@ public class MusicService extends Service implements StartActivity.MusicPlayerCo
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    public void play() {}
+    public void play() {
 
-    public void stop() {}
+    }
 
-    public void pause() {}
+    public void stop() {
 
-    public void sendPlaylist() {}
+    }
+
+    public void pause() {
+
+    }
 
 }

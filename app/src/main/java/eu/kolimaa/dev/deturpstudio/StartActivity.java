@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class StartActivity extends Activity implements EditDialogFragment.TrackOperator,
         AdapterView.OnItemLongClickListener {
 
-    ArrayList<Track> playListTracks;
+    static ArrayList<Track> playListTracks; //static is needed because of a MusicService
 
     TrackListAdapter trackListAdapter;
 
@@ -38,9 +38,12 @@ public class StartActivity extends Activity implements EditDialogFragment.TrackO
 
         setContentView(R.layout.activity_start);
 
-        playListTracks = new ArrayList<>();
+        if (playListTracks == null) {
+            playListTracks = new ArrayList<>();
+        }
 
         startService(getExplicitMusicServiceIntent());
+
 
         trackListAdapter = new TrackListAdapter(getApplicationContext(), playListTracks);
 
@@ -144,8 +147,6 @@ public class StartActivity extends Activity implements EditDialogFragment.TrackO
         public void pause();
 
         public void stop();
-
-        public void sendPlaylist();
 
     }
 
