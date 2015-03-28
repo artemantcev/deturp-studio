@@ -1,8 +1,7 @@
 package eu.kolimaa.dev.deturpstudio;
 
-
-
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
 
@@ -25,7 +26,8 @@ public class EditDialogFragment extends DialogFragment {
 
     private TextView trackNameView;
 
-    private Button trackFileUploadView;
+    private static Bus bus;
+
 
 
     public EditDialogFragment() {
@@ -47,13 +49,33 @@ public class EditDialogFragment extends DialogFragment {
         return inflater.inflate(R.layout.fragment_editdialog, container, false);
     }
 
+    private Intent getUriPathIntent() {
+
+        Intent intent = new Intent();
+        intent.setType("audio/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+
+        return intent;
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         View cancelButtonView = getView().findViewById(R.id.cancel_button);
         View saveButtonView = getView().findViewById(R.id.save_button);
+        View fileButtonView = getView().findViewById(R.id.file_button);
+
+        Button fileButton = (Button) fileButtonView; //its label should be changing
+
         trackNameView = (TextView) getView().findViewById(R.id.trackname_edit_text);
+
+        fileButtonView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(getUriPathIntent(), 1);
+            }
+        });
 
         cancelButtonView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,8 +89,7 @@ public class EditDialogFragment extends DialogFragment {
                 @Override
                 public void onClick(View saveButton) {
                     String name = trackNameView.getText().toString();
-                    Uri path = Uri.parse("");
-                    ((TrackOperator)getActivity()).onCreateNewTrack(name, path);
+                    ((TrackOperator)getActivity()).onCreateNewTrack(name, getCurrentFilePath());
                     dismiss();
                 }
             });
@@ -77,8 +98,8 @@ public class EditDialogFragment extends DialogFragment {
                 @Override
                 public void onClick(View saveButton) {
                     String newName = trackNameView.getText().toString();
-                    Uri newPath = Uri.parse("");
-                    ((TrackOperator)getActivity()).onEditExistingTrack(newName, newPath, getTrackPosition());
+                    ((TrackOperator)getActivity()).onEditExistingTrack(newName,
+                            getCurrentFilePath(), getTrackPosition());
                     dismiss();
                 }
             });
@@ -144,6 +165,14 @@ public class EditDialogFragment extends DialogFragment {
 
         public void onEditExistingTrack(String newName, Uri newPath, int position);
 
+    }
+
+    public static Bus getEditDialogFragmentBus() {
+        if (bus == null) {
+            bus = new Bus();
+        }
+
+        return bus;
     }
 
 

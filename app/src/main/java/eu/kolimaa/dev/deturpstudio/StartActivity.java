@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,12 +15,15 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.ToggleButton;
 
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
+
 import java.util.ArrayList;
 
 public class StartActivity extends Activity implements EditDialogFragment.TrackOperator,
         AdapterView.OnItemLongClickListener {
 
-    ArrayList<Track> playListTracks; //static is needed because of a MusicService
+    ArrayList<Track> playListTracks;
 
     TrackListAdapter trackListAdapter;
 
@@ -42,9 +46,8 @@ public class StartActivity extends Activity implements EditDialogFragment.TrackO
             playListTracks = new ArrayList<>();
         }
 
+        MusicService.getServiceBus().register(this);
         startService(getExplicitMusicServiceIntent());
-
-        MusicService.getInstance().setTracks(playListTracks);
 
         trackListAdapter = new TrackListAdapter(getApplicationContext(), playListTracks);
 
@@ -55,11 +58,7 @@ public class StartActivity extends Activity implements EditDialogFragment.TrackO
         playToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    MusicService.getInstance().play();
-                } else {
-                    MusicService.getInstance().pause();
-                }
+                MusicService.getInstance().play();
             }
         });
 
@@ -141,11 +140,29 @@ public class StartActivity extends Activity implements EditDialogFragment.TrackO
         trackListAdapter.notifyDataSetChanged();
     }
 
+    @Subscribe
+    public void onServiceStarted(ServiceEvent event) {
+        MusicService.getInstance().setTracks(playListTracks);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            Uri uri = data.getData();
+            Log.e("ONACTIVITYRESULT", uri.toString());
+            if (newTrackDialogFragment != null) {
+                newTrackDialogFragment.setCurrentFilePath(uri);
+            } else {
+                editTrackDialogFragment.setCurrentFilePath(uri);
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     public interface MusicPlayerController {
 
         public void play();
-
-        public void pause();
 
         public void stop();
 

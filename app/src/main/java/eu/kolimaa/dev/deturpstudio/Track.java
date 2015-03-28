@@ -22,14 +22,22 @@ public class Track {
         trackName = name;
         trackPath = path;
 
+        Log.e("TRACKPATH", "Path:" + trackPath.toString());
+
         try {
-            MediaPlayer mp = MediaPlayer.create(context, trackPath);
-            trackLength = mp.getDuration();
-            mp.release();
+            MediaPlayer mp = new MediaPlayer();
+            mp.setDataSource(context, trackPath);
+            mp.prepare();
+            mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    trackLength = mp.getDuration();
+                    mp.release();
+                }
+            });
         } catch (Exception e) {
-            Log.d("Track.class", "error while trying to get" +
+            Log.e("Track.class", "error while trying to get" +
                     " the audio duration (file doesn't exist?)");
-            AppHelper.killApplication();
         }
 
     }
