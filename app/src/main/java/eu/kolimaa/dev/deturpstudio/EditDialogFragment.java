@@ -4,6 +4,7 @@ import android.app.DialogFragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +74,7 @@ public class EditDialogFragment extends DialogFragment {
         fileButtonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(getUriPathIntent(), 1);
+                startActivityForResult(getUriPathIntent(), 1); //FIXME: onActivityResult() doesn't get called
             }
         });
 
@@ -175,5 +176,20 @@ public class EditDialogFragment extends DialogFragment {
         return bus;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //FIXME: should be tested
+
+        Log.d("EditDialogFragment.onActivityResult", "ok");
+
+        if (requestCode == 1) {
+
+            Uri uri = data.getData();
+            setCurrentFilePath(uri);
+
+            }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
 }

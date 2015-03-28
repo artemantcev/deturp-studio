@@ -145,21 +145,6 @@ public class StartActivity extends Activity implements EditDialogFragment.TrackO
         MusicService.getInstance().setTracks(playListTracks);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
-            Uri uri = data.getData();
-            Log.e("ONACTIVITYRESULT", uri.toString());
-            if (newTrackDialogFragment != null) {
-                newTrackDialogFragment.setCurrentFilePath(uri);
-            } else {
-                editTrackDialogFragment.setCurrentFilePath(uri);
-            }
-        }
-
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
     public interface MusicPlayerController {
 
         public void play();
