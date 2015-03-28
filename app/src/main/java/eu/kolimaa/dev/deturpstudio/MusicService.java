@@ -29,8 +29,6 @@ public class MusicService extends Service implements StartActivity.MusicPlayerCo
         msrv = this;
         getServiceBus().post(new ServiceEvent());
 
-        Uri testUri = Uri.parse("file:///sdcard/Music/Apoptose - Asche.mp3");
-        mp = MediaPlayer.create(getApplicationContext(), testUri);
     }
 
     @Override
@@ -40,6 +38,11 @@ public class MusicService extends Service implements StartActivity.MusicPlayerCo
 
     @Override
     public void play() {
+
+        if (mp == null) {
+            mp = MediaPlayer.create(getApplicationContext(), tracks.get(0).getTrackPath());
+        }
+
         Log.d("MusicService", "play() method has been called");
         if (mp.isPlaying()) {
             mp.pause();
