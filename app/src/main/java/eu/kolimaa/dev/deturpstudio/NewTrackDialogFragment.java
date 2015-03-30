@@ -11,13 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.squareup.otto.Bus;
-
-import java.util.ArrayList;
-
-public class EditDialogFragment extends DialogFragment {
-
-    private boolean isNewTrack;
+public class NewTrackDialogFragment extends DialogFragment {
 
     private String currentTrackName;
 
@@ -30,13 +24,12 @@ public class EditDialogFragment extends DialogFragment {
     private Button saveButton;
 
 
-    public EditDialogFragment() {
+    public NewTrackDialogFragment() {
 
     }
 
-    public static EditDialogFragment newInstance(boolean isNewTrack) {
-        EditDialogFragment f = new EditDialogFragment();
-        f.isNewTrack = isNewTrack;
+    public static NewTrackDialogFragment newInstance() {
+        NewTrackDialogFragment f = new NewTrackDialogFragment();
 
         return f;
     }
@@ -44,15 +37,15 @@ public class EditDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        getDialog().setTitle(getEditDialogTitle(isNewTrack));
+        getDialog().setTitle(getActivity().getString(R.string.action_add));
 
-        return inflater.inflate(R.layout.fragment_editdialog, container, false);
+        return inflater.inflate(R.layout.fragment_new_track_dialog, container, false);
     }
 
     private Intent getUriPathIntent() {
 
         Intent intent = new Intent();
-        intent.setType("audio/*");
+        intent.setType("audio/mp3");
         intent.setAction(Intent.ACTION_GET_CONTENT);
 
         return intent;
@@ -66,7 +59,6 @@ public class EditDialogFragment extends DialogFragment {
         View saveButtonView = getView().findViewById(R.id.save_button);
         View fileButtonView = getView().findViewById(R.id.file_button);
 
-        Button fileButton = (Button) fileButtonView; //its label should be changing
         saveButton = (Button) saveButtonView;
 
         saveButton.setEnabled(false);
@@ -76,7 +68,7 @@ public class EditDialogFragment extends DialogFragment {
         fileButtonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(getUriPathIntent(), 1); //FIXME: onActivityResult() doesn't get called
+                startActivityForResult(getUriPathIntent(), 1);
             }
         });
 
@@ -87,52 +79,20 @@ public class EditDialogFragment extends DialogFragment {
             }
         });
 
-        if (isNewTrack) {
-            saveButtonView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View saveButton) {
-                    String name = trackNameView.getText().toString();
-                    ((TrackOperator)getActivity()).onCreateNewTrack(name, getCurrentFilePath());
-                    dismiss();
-                }
-            });
-        } else {
-
-            fileButtonView.setVisibility(View.INVISIBLE);
-
-            saveButtonView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View saveButton) {
-                    String newName = trackNameView.getText().toString();
-                    ((TrackOperator)getActivity()).onEditExistingTrack(newName, getTrackPosition());
-                    dismiss();
-                }
-            });
-        }
+        saveButtonView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View saveButton) {
+                String name = trackNameView.getText().toString();
+                ((ITrackOperator)getActivity()).onCreateNewTrack(name, getCurrentFilePath());
+                dismiss();
+            }
+        });
 
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
-        if (!isNewTrack) {
-            trackNameView.setText(getCurrentName());
-        }
-
-    }
-
-    public String getEditDialogTitle(boolean isNewTrack) {
-
-        String title;
-
-        if (isNewTrack) {
-            title = getActivity().getString(R.string.action_add);
-        } else {
-            title = getActivity().getString(R.string.action_edit);
-        }
-
-        return title;
 
     }
 
@@ -163,20 +123,8 @@ public class EditDialogFragment extends DialogFragment {
         return currentFilePath;
     }
 
-
-    public interface TrackOperator {
-
-        public void onCreateNewTrack(String name, Uri path);
-
-        public void onEditExistingTrack(String newName, int position);
-
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //FIXME: should be tested
-
-        Log.d("EditDialogFragment.onActivityResult", "ok");
 
         if (requestCode == 1) {
 

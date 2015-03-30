@@ -49,6 +49,7 @@ public class TrackListAdapter extends BaseAdapter {
         removeTrackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MusicService.getControllerInstance().remove(trackPosition);
                 tracks.remove(trackPosition);
                 TrackListAdapter.this.notifyDataSetChanged();
             }

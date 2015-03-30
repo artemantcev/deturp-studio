@@ -5,7 +5,6 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,19 +14,22 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.ToggleButton;
 
-import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 
-public class StartActivity extends Activity implements EditDialogFragment.TrackOperator,
+public class StartActivity extends Activity implements ITrackOperator,
         AdapterView.OnItemLongClickListener {
 
     ArrayList<Track> playListTracks;
 
     TrackListAdapter trackListAdapter;
 
-    EditDialogFragment newTrackDialogFragment, editTrackDialogFragment;
+    NewTrackDialogFragment newTrackDialogFragment;
+    RenameTrackDialogFragment renameTrackDialogFragment;
+
+    private ToggleButton playToggleButton;
+    private Button stopButton;
 
     FragmentManager fm = getFragmentManager();
 
@@ -52,20 +54,23 @@ public class StartActivity extends Activity implements EditDialogFragment.TrackO
         trackListAdapter = new TrackListAdapter(getApplicationContext(), playListTracks);
 
         final ListView playlistView = (ListView) findViewById(R.id.playlist);
-        final ToggleButton playToggleButton = (ToggleButton) findViewById(R.id.toggle_button_play);
-        final Button stopButton = (Button) findViewById(R.id.button_stop);
+        playToggleButton = (ToggleButton) findViewById(R.id.toggle_button_play);
+        stopButton = (Button) findViewById(R.id.button_stop);
+
+        enableControls(false);
 
         playToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                MusicService.getInstance().play();
+                MusicService.getControllerInstance().play();
             }
         });
 
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MusicService.getInstance().stop();
+                playToggleButton.setChecked(false);
+                MusicService.getControllerInstance().stop();
             }
         });
 
@@ -86,13 +91,13 @@ public class StartActivity extends Activity implements EditDialogFragment.TrackO
 
         Track currentTrack = playListTracks.get(position);
 
-        editTrackDialogFragment = EditDialogFragment.newInstance(false);
+        renameTrackDialogFragment = RenameTrackDialogFragment.newInstance();
 
-        editTrackDialogFragment.setTrackPosition(position);
-        editTrackDialogFragment.setCurrentName(currentTrack.getTrackName());
-        editTrackDialogFragment.setCurrentFilePath(currentTrack.getTrackPath());
+        renameTrackDialogFragment.setTrackPosition(position);
+        renameTrackDialogFragment.setCurrentName(currentTrack.getTrackName());
 
-        editTrackDialogFragment.show(fm, "editTrackDialog");
+        renameTrackDialogFragment.show(fm, "renameTrackDialog");
+
         return true;
     }
 
@@ -112,7 +117,7 @@ public class StartActivity extends Activity implements EditDialogFragment.TrackO
                 AppHelper.killApplication();
             case R.id.action_add:
                 if (newTrackDialogFragment == null) {
-                    newTrackDialogFragment = EditDialogFragment.newInstance(true);
+                    newTrackDialogFragment = NewTrackDialogFragment.newInstance();
                 }
                 newTrackDialogFragment.show(fm, "newTrackDialog");
 
@@ -126,8 +131,14 @@ public class StartActivity extends Activity implements EditDialogFragment.TrackO
         Track track = new Track(name, path, getApplicationContext());
         playListTracks.add(track);
         newTrackDialogFragment = null;
+        enableControls(true);
 
         trackListAdapter.notifyDataSetChanged();
+    }
+
+    public void enableControls(boolean isEnabled) {
+        playToggleButton.setEnabled(isEnabled);
+        stopButton.setEnabled(isEnabled);
     }
 
     @Override
@@ -141,20 +152,17 @@ public class StartActivity extends Activity implements EditDialogFragment.TrackO
 
     @Subscribe
     public void onServiceStarted(ServiceEvent event) {
-        MusicService.getInstance().setTracks(playListTracks);
+        MusicService.getControllerInstance().setTracks(playListTracks);
     }
 
-    public interface MusicPlayerController {
+    @Subscribe
+    public void onTrackRemove(TrackRemoveEvent event) {
 
-        public void play();
+        playToggleButton.setChecked(false);
 
-        public void stop();
-
-        public void interrupt();
-
-        public void setTracks(ArrayList<Track> tracks);
-
-
+        if (playListTracks.isEmpty()) {
+            enableControls(false);
+        }
     }
 
 }
