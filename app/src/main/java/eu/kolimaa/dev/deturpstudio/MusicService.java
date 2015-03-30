@@ -54,8 +54,14 @@ public class MusicService extends Service implements StartActivity.MusicPlayerCo
     @Override
     public void stop() {
         Log.d("MusicService", "stop() method has been called");
-        mp.release();
+        mp.stop();
 
+    }
+
+    @Override
+    public void interrupt() {
+        stop();
+        mp.release();
     }
 
 

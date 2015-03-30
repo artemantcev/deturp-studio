@@ -131,11 +131,10 @@ public class StartActivity extends Activity implements EditDialogFragment.TrackO
     }
 
     @Override
-    public void onEditExistingTrack(String newName, Uri newPath, int position) {
+    public void onEditExistingTrack(String newName, int position) {
         Track currentTrack = playListTracks.get(position);
 
         currentTrack.setTrackName(newName);
-        currentTrack.setTrackPath(newPath);
 
         trackListAdapter.notifyDataSetChanged();
     }
@@ -151,7 +150,10 @@ public class StartActivity extends Activity implements EditDialogFragment.TrackO
 
         public void stop();
 
+        public void interrupt();
+
         public void setTracks(ArrayList<Track> tracks);
+
 
     }
 

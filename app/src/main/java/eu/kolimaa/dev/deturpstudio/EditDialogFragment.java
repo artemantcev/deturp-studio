@@ -27,8 +27,7 @@ public class EditDialogFragment extends DialogFragment {
 
     private TextView trackNameView;
 
-    private static Bus bus;
-
+    private Button saveButton;
 
 
     public EditDialogFragment() {
@@ -68,6 +67,9 @@ public class EditDialogFragment extends DialogFragment {
         View fileButtonView = getView().findViewById(R.id.file_button);
 
         Button fileButton = (Button) fileButtonView; //its label should be changing
+        saveButton = (Button) saveButtonView;
+
+        saveButton.setEnabled(false);
 
         trackNameView = (TextView) getView().findViewById(R.id.trackname_edit_text);
 
@@ -95,12 +97,14 @@ public class EditDialogFragment extends DialogFragment {
                 }
             });
         } else {
+
+            fileButtonView.setVisibility(View.INVISIBLE);
+
             saveButtonView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View saveButton) {
                     String newName = trackNameView.getText().toString();
-                    ((TrackOperator)getActivity()).onEditExistingTrack(newName,
-                            getCurrentFilePath(), getTrackPosition());
+                    ((TrackOperator)getActivity()).onEditExistingTrack(newName, getTrackPosition());
                     dismiss();
                 }
             });
@@ -164,16 +168,8 @@ public class EditDialogFragment extends DialogFragment {
 
         public void onCreateNewTrack(String name, Uri path);
 
-        public void onEditExistingTrack(String newName, Uri newPath, int position);
+        public void onEditExistingTrack(String newName, int position);
 
-    }
-
-    public static Bus getEditDialogFragmentBus() {
-        if (bus == null) {
-            bus = new Bus();
-        }
-
-        return bus;
     }
 
     @Override
@@ -184,10 +180,15 @@ public class EditDialogFragment extends DialogFragment {
 
         if (requestCode == 1) {
 
-            Uri uri = data.getData();
-            setCurrentFilePath(uri);
-
+            if (data != null) {
+                Uri uri = data.getData();
+                setCurrentFilePath(uri);
+                saveButton.setEnabled(true);
+            } else {
+                saveButton.setEnabled(false);
             }
+
+        }
 
         super.onActivityResult(requestCode, resultCode, data);
     }

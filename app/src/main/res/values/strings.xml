@@ -5,7 +5,7 @@
     <string name="app_shortname">DETURP</string>
     <string name="action_quitbutton">Kill</string>
     <string name="action_add">New track</string>
-    <string name="action_edit">Edit track</string>
+    <string name="action_edit">Rename track</string>
 
     <string name="editdialog_trackname_text">Track name</string>
     <string name="file_button_text">Select file (mp3 only)</string>
