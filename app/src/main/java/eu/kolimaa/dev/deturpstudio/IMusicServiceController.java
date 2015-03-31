@@ -4,11 +4,13 @@ import java.util.ArrayList;
 
 public interface IMusicServiceController {
 
-    public void play();
+    public void play(boolean switchTrack);
 
     public void stop();
 
-    public void remove(int position);
+    public void onRemove(int position);
+
+    public void onAdd();
 
     public void setTracks(ArrayList<Track> tracks);
 

@@ -51,7 +51,7 @@ public class StartActivity extends Activity implements ITrackOperator,
         MusicService.getServiceBus().register(this);
         startService(getExplicitMusicServiceIntent());
 
-        trackListAdapter = new TrackListAdapter(getApplicationContext(), playListTracks);
+        trackListAdapter = new TrackListAdapter(this, playListTracks);
 
         final ListView playlistView = (ListView) findViewById(R.id.playlist);
         playToggleButton = (ToggleButton) findViewById(R.id.toggle_button_play);
@@ -62,7 +62,7 @@ public class StartActivity extends Activity implements ITrackOperator,
         playToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                MusicService.getControllerInstance().play();
+                MusicService.getControllerInstance().play(false);
             }
         });
 
@@ -126,6 +126,11 @@ public class StartActivity extends Activity implements ITrackOperator,
         return super.onOptionsItemSelected(item);
     }
 
+    public void enableControls(boolean isEnabled) {
+        playToggleButton.setEnabled(isEnabled);
+        stopButton.setEnabled(isEnabled);
+    }
+
     @Override
     public void onCreateNewTrack(String name, Uri path) {
         Track track = new Track(name, path, getApplicationContext());
@@ -133,12 +138,9 @@ public class StartActivity extends Activity implements ITrackOperator,
         newTrackDialogFragment = null;
         enableControls(true);
 
-        trackListAdapter.notifyDataSetChanged();
-    }
+        MusicService.getControllerInstance().onAdd();
 
-    public void enableControls(boolean isEnabled) {
-        playToggleButton.setEnabled(isEnabled);
-        stopButton.setEnabled(isEnabled);
+        trackListAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -157,12 +159,8 @@ public class StartActivity extends Activity implements ITrackOperator,
 
     @Subscribe
     public void onTrackRemove(TrackRemoveEvent event) {
-
         playToggleButton.setChecked(false);
 
-        if (playListTracks.isEmpty()) {
-            enableControls(false);
-        }
     }
 
 }
