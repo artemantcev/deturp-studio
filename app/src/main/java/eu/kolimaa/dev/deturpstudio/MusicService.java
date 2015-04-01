@@ -19,7 +19,6 @@ public class MusicService extends Service implements IMusicServiceController {
 
     private MediaPlayer mp;
 
-    private boolean hasNext;
     private int currentTrackIndex;
     private boolean firstStart;
 
@@ -40,7 +39,7 @@ public class MusicService extends Service implements IMusicServiceController {
         super.onCreate();
 
         msrv = this;
-        hasNext = false;
+
         firstStart = true;
         currentTrackIndex = START_INDEX;
 
@@ -63,11 +62,11 @@ public class MusicService extends Service implements IMusicServiceController {
     }
 
     @Override
-    public void play(boolean switchTrack) {
+    public synchronized void play(boolean switchTrack) {
 
         if (!tracks.isEmpty()) {
 
-            if ((((mp == null || hasNext) && switchTrack) || firstStart)) {
+            if (switchTrack || firstStart) {
                 switchTrack = false;
                 firstStart = false;
                 currentPlayingTrack = tracks.get(currentTrackIndex);
@@ -101,7 +100,6 @@ public class MusicService extends Service implements IMusicServiceController {
                         currentTrackIndex = START_INDEX;
                     }
 
-                    hasNext = true;
                     play(true);
 
                 }
@@ -119,7 +117,7 @@ public class MusicService extends Service implements IMusicServiceController {
     }
 
     @Override
-    public void onRemove(int position) {
+    public synchronized void onRemove(int position) {
 
         getServiceBus().post(new TrackRemoveEvent());
 
@@ -143,10 +141,9 @@ public class MusicService extends Service implements IMusicServiceController {
 
     }
 
-    public void onAdd() {
-        if(!hasNext) {
-            hasNext = true;
-        }
+    @Override
+    public synchronized void onAdd() {
+
     }
 
     @Override
