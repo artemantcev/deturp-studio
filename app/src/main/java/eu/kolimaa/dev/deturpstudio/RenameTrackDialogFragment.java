@@ -93,4 +93,12 @@ public class RenameTrackDialogFragment extends DialogFragment {
         return currentTrackName;
     }
 
+    @Override
+    public void onDestroy() {
+        trackNameView = null;
+        saveButton = null;
+
+        super.onDestroy();
+    }
+
 }

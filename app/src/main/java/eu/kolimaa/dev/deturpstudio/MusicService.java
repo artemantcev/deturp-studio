@@ -43,6 +43,7 @@ public class MusicService extends Service implements IMusicServiceController {
         hasNext = false;
         firstStart = true;
         currentTrackIndex = START_INDEX;
+
         getServiceBus().post(new ServiceEvent());
 
     }
@@ -96,14 +97,13 @@ public class MusicService extends Service implements IMusicServiceController {
 
                     if (tracks.listIterator(currentTrackIndex+1).hasNext()) {
                         currentTrackIndex++;
-                        hasNext = true;
-                        play(true);
                     } else {
                         currentTrackIndex = START_INDEX;
-                        hasNext = true;
-                        play(true);
-
                     }
+
+                    hasNext = true;
+                    play(true);
+
                 }
 
             });
@@ -151,7 +151,9 @@ public class MusicService extends Service implements IMusicServiceController {
 
     @Override
     public void onDestroy() {
+        mp = null;
         msrv = null;
+
         super.onDestroy();
     }
 

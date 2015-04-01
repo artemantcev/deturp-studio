@@ -9,7 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class TrackListAdapter extends BaseAdapter {
 
@@ -41,10 +43,10 @@ public class TrackListAdapter extends BaseAdapter {
 
         final int trackPosition = position;
 
-        TextView trackNumber = (TextView) view.findViewById(R.id.tracknumber);
-        TextView trackName = (TextView) view.findViewById(R.id.trackname);
+        TextView trackNumberView = (TextView) view.findViewById(R.id.tracknumber);
+        TextView trackNameView = (TextView) view.findViewById(R.id.trackname);
+        TextView trackLengthView = (TextView) view.findViewById(R.id.tracklength);
         Button removeTrackButton = (Button) view.findViewById(R.id.button_edit);
-        Button muteTrackButton = (Button) view.findViewById(R.id.button_mute);
 
         removeTrackButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,17 +61,15 @@ public class TrackListAdapter extends BaseAdapter {
             }
         });
 
-        muteTrackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("mute", "mute action");
-                tracks.get(trackPosition).setMute(!tracks.get(trackPosition).isMuted());
-                TrackListAdapter.this.notifyDataSetChanged();
-            }
-        });
+        trackNumberView.setText(Integer.toString(position+1));
+        trackNameView.setText(tracks.get(position).getTrackName());
 
-        trackNumber.setText(Integer.toString(position+1));
-        trackName.setText(tracks.get(position).getTrackName());
+        SimpleDateFormat formatter = new SimpleDateFormat("mm:ss");
+
+        trackLengthView.setText(formatter.format(new Date(tracks.get(position)
+                .getTrackLengthInMsec())));
+
+        notifyDataSetChanged();
 
         return view;
     }

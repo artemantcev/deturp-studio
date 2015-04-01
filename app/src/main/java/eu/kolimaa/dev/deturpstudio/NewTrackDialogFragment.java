@@ -141,4 +141,12 @@ public class NewTrackDialogFragment extends DialogFragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    public void onDestroy() {
+        trackNameView = null;
+        saveButton = null;
+
+        super.onDestroy();
+    }
+
 }

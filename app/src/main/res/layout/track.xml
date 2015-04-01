@@ -25,15 +25,6 @@
             android:layout_gravity="right"
             android:background="@color/button_material_dark" />
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="match_parent"
-            android:layout_height="33dp"
-            android:text="M"
-            android:textSize="12sp"
-            android:id="@+id/button_mute"
-            android:background="@color/bright_foreground_material_light" />
-
     </LinearLayout>
 
 

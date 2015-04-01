@@ -80,13 +80,6 @@ public class StartActivity extends Activity implements ITrackOperator,
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle savedInstanceState) {
-
-
-        super.onSaveInstanceState(savedInstanceState);
-    }
-
-    @Override
     public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
 
         Track currentTrack = playListTracks.get(position);
@@ -161,6 +154,21 @@ public class StartActivity extends Activity implements ITrackOperator,
     public void onTrackRemove(TrackRemoveEvent event) {
         playToggleButton.setChecked(false);
 
+    }
+
+    @Override
+    public void onDestroy() {
+
+        if (MusicService.getControllerInstance() != null) {
+            stopService(getExplicitMusicServiceIntent());
+        }
+
+        newTrackDialogFragment = null;
+        renameTrackDialogFragment = null;
+        playToggleButton = null;
+        stopButton = null;
+
+        super.onDestroy();
     }
 
 }
