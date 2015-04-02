@@ -21,12 +21,12 @@ import java.util.ArrayList;
 public class StartActivity extends Activity implements ITrackOperator,
         AdapterView.OnItemLongClickListener {
 
-    ArrayList<Track> playListTracks;
+    private ArrayList<Track> playListTracks;
 
-    TrackListAdapter trackListAdapter;
+    private TrackListAdapter trackListAdapter;
 
-    NewTrackDialogFragment newTrackDialogFragment;
-    RenameTrackDialogFragment renameTrackDialogFragment;
+    private NewTrackDialogFragment newTrackDialogFragment;
+    private RenameTrackDialogFragment renameTrackDialogFragment;
 
     private ToggleButton playToggleButton;
     private Button stopButton;

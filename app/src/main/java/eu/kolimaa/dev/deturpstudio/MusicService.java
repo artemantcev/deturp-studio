@@ -111,8 +111,10 @@ public class MusicService extends Service implements IMusicServiceController {
 
     @Override
     public void stop() {
-        if (!tracks.isEmpty()) {
-            mp.seekTo(0);
+        if (mp != null) {
+            if (!tracks.isEmpty()) {
+                mp.seekTo(0);
+            }
         }
     }
 

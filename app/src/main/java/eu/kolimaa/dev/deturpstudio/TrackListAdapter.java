@@ -15,9 +15,9 @@ import java.util.Date;
 
 public class TrackListAdapter extends BaseAdapter {
 
-    Context context;
-    ArrayList<Track> tracks;
-    LayoutInflater lInflater;
+    private Context context;
+    private ArrayList<Track> tracks;
+    private LayoutInflater lInflater;
 
     public TrackListAdapter(Context context, ArrayList<Track> tracks) {
 
